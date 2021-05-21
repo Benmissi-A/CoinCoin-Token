@@ -12,10 +12,13 @@ describe('CoinCoin Token', function () {
     coincoin = await CoinCoin.connect(dev).deploy(owner.address, INITIAL_SUPPLY)
     await coincoin.deployed()
     /*
-    Il faudra transférer des tokens à nos utilisateurs de tests lorsque la fonction transfer sera implementé*/
+    Il faudra transférer des tokens à nos utilisateurs de tests lorsque la fonction transfer sera implementé
+     */
+    
     await coincoin
       .connect(owner)
-      .transfer(alice.address, ethers.utils.parseEther('100000000'))
+      .transfer(owner.address,alice.address, ethers.utils.parseEther('100000000'))
+     
   })
 
   describe('Deployement', function () {
@@ -47,23 +50,22 @@ describe('CoinCoin Token', function () {
     })
   })
 
-  //   describe('balances system', function () {
-  //   // Tester le système d'allowance ici
-  //   it('approve from sender to spender', async function () {
-  //     expect(await coincoin.balanceOf(alice.address)).to.equal(100000000)
-  //   })
-  //   // it('get allowance fro sender', async function () {
-  //   // })
-  // })
+    describe('balances system', function () {
+    // Tester le système d'allowance ici
+    it('approve from sender to spender', async function () {
+      expect(await coincoin.balanceOf(alice.address)).to.equal(ethers.utils.parseEther('100000000'))
+    })
+    // it('get allowance fro sender', async function () {
+    // })
+  })
 
-  // describe('Allowance system', function () {
-  //   // Tester le système d'allowance ici
-  //   it('approve from sender to spender', async function () {
-  //     await coincoin.approve(alice.address,charlie.address,1000000)
-  //     console.log(alice.addres)
-  //     expect(await coincoin.allowance(alice.address,charlie.address)).to.equal(1000000)
-  //   })
-  // })
+  describe('Allowance system', function () {
+    // Tester le système d'allowance ici
+    it('approve from sender to spender', async function () {
+      await coincoin.approve(alice.address,charlie.address,ethers.utils.parseEther('1000000'))
+      expect(await coincoin.allowance(alice.address,charlie.address)).to.equal(ethers.utils.parseEther('1000000'))
+    })
+  })
   describe('Token transfers', function () {
     it('transfers tokens from sender to receipient', async function () {})
     it('transferFrom tokens from sender to receipient', async function () {})
